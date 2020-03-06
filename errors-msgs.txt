@@ -1,0 +1,8 @@
+ File does not exist: /usr/local/apache/htdocs/M83A
+ File does not exist: /home/httpd/twiki/view/Main/WebHome
+ File does not exist: /usr/local/apache/htdocs/_vti_bin/owssvr.dll
+ File does not exist: /usr/local/apache/htdocs/MSOffice/cltreq.asp
+ File does not exist: /home/httpd/twiki/view/Main/WebHome
+ File does not exist: /usr/local/mailman/archives/public/cipg/2003-november.txt
+ File does not exist: /usr/local/apache/htdocs/B270.txt
+7 errors-msgs.txt
