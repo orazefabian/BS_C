@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define stringlength 16;
+#define STRINGLENGTH 16
 
 int main(int argc, char const *argv[]) {
   double num1;
   unsigned int num2;
   char c;
-  char string[stringlength];
+  char string[STRINGLENGTH];
   long long int num3;
 
   printf("Enter character:\n");
@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]) {
 
   printf("\nEnter string\n");
   getchar();
-  fgets(string, stringlength, stdin);
+  fgets(string, STRINGLENGTH, stdin);
   printf("%s\n", string);
   printf("size: %ld\n", sizeof(string));
 }
