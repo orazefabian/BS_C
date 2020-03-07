@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int stringlength = 16;
+#define stringlength 16;
 
 int main(int argc, char const *argv[]) {
   double num1;
