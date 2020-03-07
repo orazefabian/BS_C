@@ -6,15 +6,21 @@ int main(int argc, char const *argv[]) {
   char string[16];
   long long int num3;
 
+  uint32_t max_int = UINT32_MAX;
+  uint64_t max_long = UINT64_MAX;
+  
+  printf("uint32_t size=%d\t uint32_t max val = %u\n", sizeof(uint32_t), max_int);
+  printf("uint64_t size=%d\t uint64_t max val = %lu\n", sizeof(uint64_t), max_long);
+
   printf("Enter character:\n");
-  scanf(" %c", &c);
+  scanf(" %c", &c)
   printf("%c\n", c);
   printf("size: %ld\n", sizeof(c));
 
   printf("Enter double:\n");
   scanf("%lf", &num1);
   printf("%lf\n", num1);
-  printf("size: %ld\n", sizeof(num1));
+  printf("size: %ld\n", sizeof(num1));  
 
   printf("Enter int:\n");
   scanf("%d", &num2);
