@@ -4,7 +4,7 @@
 int main(int argc, char const* argv[])
 {
     int a = 4;
-    int* b;
+    int* b = NULL;
     printf("\n0: a=%d &a=%p *(&a)=%d", a, &a, *(&a));
     printf("\n0: b=%p &b=%p\n", b, &b);
     int* c = b = (int*)malloc(sizeof(int) * 4);
