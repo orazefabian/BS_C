@@ -3,7 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MAXCHARS (200 + 1) // we assume a line in the file has a maximum length of 200 characters + \0
+#define MAXCHARS \
+    (200 + 1) // we assume a line in the file has a maximum length of 200 characters + \0
 
 int main(int argc, char* argv[])
 {
@@ -11,26 +12,27 @@ int main(int argc, char* argv[])
 
     if (!file) {
         perror("Error opening file");
-        return 1;
+        return EXIT_FAILURE;
     }
 
-    // TODO:
-    // 1. read each line from from file
     char input[MAXCHARS];
     char* readLine;
+
     do {
-        if (readLine != NULL) {
+        readLine = fgets(input, MAXCHARS, file);
+        // if it reads a comment it skips that line
+        if (readLine != NULL && input[0] != '#') {
             char* subName = strchr(input, ':');
-            long sizeName = subName - input;
-            char name[sizeName + 1];
-            memcpy(name, input, sizeName);
-            name[sizeName] = '\n';
+            long nameSize = subName - input;
+            char name[nameSize + 1];
+            memcpy(name, input, nameSize);
+            name[nameSize] = '\0';
 
             char* subID = strchr(subName + 3, ':');
-            long sizeID = subID - (subName + 3);
-            char id[sizeID + 1];
-            memcpy(id, subName + 3, sizeID);
-            id[sizeID] = '\n';
+            long idSize = subID - (subName + 3);
+            char id[idSize + 1];
+            memcpy(id, subName + 3, idSize);
+            id[idSize] = '\0';
 
             printf("%s,%s\n", id, name);
         }
@@ -39,10 +41,5 @@ int main(int argc, char* argv[])
 
     fclose(file);
 
-    // 2. parse for username (first column) and print
-    // 3. find third column and print user-id
-
-    // TODO: close file
-
-    return 0;
+    return EXIT_SUCCESS;
 }
