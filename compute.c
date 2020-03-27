@@ -37,8 +37,20 @@ Neben dem Systemspeichers kann ein core dump folgende informationen beinhalten:
 – Der Zähler und der Stapelzeiger des Programms
 – Betriebssystem- und Prozessorinformationen und Flags
 
-GNU ist der standard debugger bei linux systemen. GDB bietet die üblichen Möglichkeiten zur Ablaufverfolgung wie Breakpoints 
+GNU ist der standard debugger bei linux systemen. GDB bietet die üblichen Möglichkeiten zur Ablaufverfolgung wie Breakpoints
 oder die Ausgabe des Stacktrace, und ermöglicht ein Eingreifen in die Ausführung von Programmen.
 
+Create core dump:
+1. ulimit -c unlimited
+2. call gcc -g compute.c -o debug
+3. gdb debug
+4. Breakpoint 1, compute (arr=0x7fffffffddf0, len=11) at compute.c:15
+15	    return squares / sum;
+(gdb) p squares
+$1 = 110
+(gdb) p sum
+$2 = 0
+(gdb) Quit
+(gdb)
 
 */
