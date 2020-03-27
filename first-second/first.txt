@@ -1,0 +1,2 @@
+execve("./first", ["./first"], 0x7ffff1551030 /* 60 vars */) = -1 ENOEXEC (Exec format error)
++++ exited with 1 +++
