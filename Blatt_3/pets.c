@@ -3,23 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 typedef struct
 {
     char* name;
-    char  owner[7];
+    char owner[20];
 } Pet;
-
 
 Pet* createPet(char* name, const char* owner)
 {
-    Pet pet;
-    pet.name = name;
-    strcpy(pet.owner, owner);
+    Pet* pet = (Pet*)malloc(sizeof(Pet));
+    pet->name = name;
+    strcpy(pet->owner, owner);
 
-    return &pet;
+    return pet;
 }
-
 
 int main()
 {
