@@ -26,7 +26,18 @@ int main(int argc, char* argv[])
     int lineLength;
     int index = 0; //to keep track of array i
 
-    for (int i = 0; i < MAXLINE; i++) { //because first 10 lines are comments
+    //check what OS is used and set counter right (passwd file looks different on linux and mac)
+    int loopCount;
+    char os;
+    printf("Enter OS: Linux or MacOS (l) or (m): ");
+    scanf(" %c", &os);
+    if (os == 'm') {
+        loopCount = MAXLINE + 10;
+    } else if (os == 'l') {
+        loopCount = MAXLINE;
+    }
+
+    for (int i = 0; i < loopCount; i++) { //because first 10 lines are comments
         readLine = fgets(input, MAXCHARS, file);
         if (readLine != NULL && input[0] != '#') {
 
@@ -34,15 +45,15 @@ int main(int argc, char* argv[])
 
             //correct "_" before lines
             if (readLine[0] == '_') {
-                for (int i = 0; i < lineLength; i++) {
-                    readLine[i] = readLine[i + 1];
+                for (int j = 0; j < lineLength; j++) {
+                    readLine[j] = readLine[j + 1];
                 }
                 readLine[lineLength - 1] = '\0';
             } else {
                 readLine[lineLength] = '\0';
             }
 
-            arr[index] = (char*)malloc((lineLength + 1) * sizeof(char)); //give just enough space
+            arr[index] = (char*)malloc((lineLength) * sizeof(char)); //give just enough space
             memcpy(arr[index], readLine, lineLength);
             arr[index][lineLength] = '\0';
             index++;
