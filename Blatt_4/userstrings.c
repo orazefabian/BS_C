@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     int lineLength;
     int index = 0; //to keep track of array i
 
-    for (int i = 0; i < MAXLINE + 10; i++) { //because first 10 lines are comments
+    for (int i = 0; i < MAXLINE; i++) { //because first 10 lines are comments
         readLine = fgets(input, MAXCHARS, file);
         if (readLine != NULL && input[0] != '#') {
 
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
                 readLine[lineLength] = '\0';
             }
 
-            arr[index] = (char*)malloc((lineLength) * sizeof(char)); //give just enough space
+            arr[index] = (char*)malloc((lineLength + 1) * sizeof(char)); //give just enough space
             memcpy(arr[index], readLine, lineLength);
             arr[index][lineLength] = '\0';
             index++;
