@@ -18,12 +18,12 @@ int main(int argc, char const* argv[])
                 pid2 = fork();
                 printf("-- Inner Hello World (PID: %d, Parent: %d, PID Variable: %d)\n", getpid(), getppid(), pid2);
                 if (pid2 == 0) {
-                    sleep(5000);
+                    sleep(10000);
                     exit(0);
                 }
             }
         }
     }
-    sleep(3000);
+    sleep(10000);
     return 0;
 }
