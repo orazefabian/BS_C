@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,7 @@
 void signalHandler(int signum)
 {
     if (signum == SIGUSR1) {
-        syslog(LOG_INFO, "SIGUSR1");
+        syslog(LOG_INFO, "Signal SIGUSR1 was sent");
     }
 }
 
@@ -30,18 +31,7 @@ int main(void)
     /* If we got a good PID, then
            we can exit the parent process. */
     if (pid > 0) {
-        printf("Send singal to Deamon process('s' for SIGUSR1 signal or 'q' to quit the deamon: ");
-        while (true) {
-            char sig;
-            scanf("%c", &sig);
-            if (sig == 's') {
-                kill(pid, SIGUSR1);
-            }
-            if (sig == 'q') {
-                kill(pid, SIGKILL);
-                break;
-            }
-        }
+        printf("Deamon process started PID: %d", pid);
 
         exit(EXIT_SUCCESS);
     }
