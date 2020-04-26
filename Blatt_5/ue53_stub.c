@@ -10,36 +10,25 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-
 int main(int argc, char** argv)
 {
-    /* ----------------------------- */
-    /* step 0: check input arguments */
-    /* TODO -- check for any input arguments, especially for -h and --help
-     *         print usage information to dispay if required
-     */
+    char* command = argv[1];
+    char* arguments[argc];
 
-    /* ----------------------------- */
-    /* step 1: some variables ...    */
+    int i;
+    for (i = 1; i < argc; i++) {
+        arguments[i - 1] = argv[i];
+    }
+    arguments[argc - 1] = NULL;
+
     pid_t pid;
-
-    /* ------------------------------ */
-    /* step 3: do the work ...        */
-    fprintf(stdout, "[P]\tcurrent process id = %i\n", (int) getpid());
-
-    /* step 3.1: create new process via fork */
-    /* TODO fork() */
-
-    /* step 3.2: provide code for the parent process */
-    /* TODO pid > (pid_t)0 */
-    /*      just wait for child */
-
-    /* step 3.3: provide code for the child process */
-    /* TODO pid == (pid_t)0 */
-    /*      execute programm provided through command line */
-
-    /* step 3.4: code for the error case, i.e., fork failed */
-    /* TODO pid < (pid_t)0 */
-
-    return EXIT_SUCCESS;
+    pid = fork();
+    if (pid == 0) {
+        //execvp to call shell functions
+        return execvp(command, arguments);
+    } else if (pid > 0) {
+        wait(0);
+    } else if (pid < 0) {
+        printf("Fork failed\n");
+    }
 };
