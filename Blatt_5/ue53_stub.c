@@ -26,9 +26,11 @@ int main(int argc, char** argv)
     if (pid == 0) {
         //execvp to call shell functions
         return execvp(command, arguments);
-    } else if (pid > 0) {
+    }
+    if (pid > 0) {
         wait(0);
-    } else if (pid < 0) {
+    }
+    if (pid < 0) {
         printf("Fork failed\n");
     }
 };
