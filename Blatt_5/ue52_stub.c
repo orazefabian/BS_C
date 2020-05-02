@@ -19,7 +19,7 @@ int main(int argc, char** argv)
      *         print usage information to dispay if required
      */
     int opt = 0;
-    while ((opt = getopt(argc, argv, "h") != -1)) {
+    while ((opt = getopt(argc, argv, 'h:') != -1)) {
         switch (opt) {
         case 'h':
             printf("main -help\n");
@@ -65,6 +65,7 @@ int main(int argc, char** argv)
             }
         } else {
             printf("fork failed!\n");
+            exit(EXIT_FAILURE);
         }
     }
 
