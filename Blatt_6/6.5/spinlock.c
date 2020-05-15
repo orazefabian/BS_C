@@ -1,3 +1,4 @@
+#include "pthread_spinlock.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,9 +9,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define MAXCOUNT 100000000
+#define MAXCOUNT 1000000
 #define NUM_CHILDREN 4
-#define SHMSEGSIZE sizeof(int)
+#define SHMSEGSIZE sizeof(int) + sizeof(pthread_spinlock_t)
 
 int main()
 {
@@ -24,6 +25,11 @@ int main()
     shared_mem = (int*)shmat(shmID, 0, 0);
     *shared_mem = 0;
 
+    //create spinlock
+    pthread_spinlock_t* spin = (pthread_spinlock_t*)(shared_mem + 1);
+
+    pthread_spin_init(spin, PTHREAD_PROCESS_PRIVATE);
+
     for (i = 0; i < NUM_CHILDREN; i++) {
         pid[i] = fork();
 
@@ -35,8 +41,13 @@ int main()
 
             //all children are accessing shared memory at the same time, a lot of actions get lost
             while (*shared_mem < MAXCOUNT) {
-                *shared_mem += 1;
-                count++;
+
+                pthread_spin_lock(spin);
+                if (*shared_mem != MAXCOUNT) {
+                    *shared_mem += 1;
+                    count++;
+                }
+                pthread_spin_unlock(spin);
             }
             printf("Child %i incremented value %i times!\n", i, count);
             shmdt(shared_mem);
@@ -47,6 +58,8 @@ int main()
         waitpid(pid[i], NULL, 0);
     }
     printf("Shared Memory = %i \n", *shared_mem);
+
+    pthread_spin_destroy(spin);
 
     //important to unmap shared memory segment from program with shmdt
     shmdt(shared_mem);

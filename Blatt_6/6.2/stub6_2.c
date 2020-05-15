@@ -60,6 +60,7 @@ int main(int argc, char** argv)
 
     /* code for parent */
     waitpid(0, NULL, 0);
+
     close(thePipe[WRITE]);
     close(thePipe[READ]);
 

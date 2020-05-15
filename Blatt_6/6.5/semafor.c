@@ -14,11 +14,11 @@
 
 int main()
 {
-    int i, shmID, *shared_mem, count = 0;
+    int i, shmID, shmID2, *shared_mem, count = 0;
     int pid[NUM_CHILDREN];
 
     //create semafore with semopen
-    sem_t* sem = sem_open("smfore", O_CREAT, 0664, 0);
+    sem_t* sem = sem_open("smfore", O_CREAT, 0664, 1);
 
     //shared memory identifier returned into shmID
     shmID = shmget(IPC_PRIVATE, SHMSEGSIZE, IPC_CREAT | 0644);

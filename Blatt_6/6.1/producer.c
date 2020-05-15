@@ -35,5 +35,5 @@ int main(int argc, char const* argv[])
     }
     fclose(thepipe);
 
-    return EXIT_SUCCESS;
+    exit(EXIT_SUCCESS);
 }
