@@ -5,6 +5,7 @@
  *   Threads - Bingo
  */
 
+#include "barrier.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +17,7 @@
 #define NUMBERS 50
 #define NUM_THREADS (N + 2) // N+2 threads (players + showmaster + monitor)
 
+<<<<<<< HEAD
 // typedef struct pthread_barrier {
 //     pthread_mutex_t mutex;
 //     pthread_cond_t cond;
@@ -73,13 +75,26 @@
 //     return 0;
 // }
 
+=======
+>>>>>>> ad4d37623cbf2cbe9a941b8b88da9672ecbdc945
 pthread_t thread[NUM_THREADS];
 pthread_barrier_t barrier;
 pthread_mutex_t mutex;
 pthread_cond_t next;
 int cards[N][CARDSIZE];
 int masterNumber = 0; //number to check if showmaster has to draw new number
+int numbersDrawn[NUMBERS];
 
+int checkForNumber()
+{
+    int r;
+    do {
+        r = rand() % 50;
+    } while (numbersDrawn[r] == 0);
+    int draw = numbersDrawn[r];
+    numbersDrawn[r] = 0;
+    return draw;
+}
 // player thread
 void* player(void* id)
 {
@@ -90,35 +105,39 @@ void* player(void* id)
     //initialize cards for player
     int r;
     for (int i = 0; i < CARDSIZE; i++) {
-        r = rand() % NUMBERS + 1;
+        r = (rand() % NUMBERS) + 1;
         cards[*playerID][i] = r;
     }
 
     int checks = 0; //amount of right numbers
     while (1) {
+        sleep(1);
         pthread_mutex_lock(&mutex);
         int num = masterNumber;
         pthread_mutex_unlock(&mutex);
 
-        if (masterNumber == 0) {
+        if (num == 0) {
             continue;
         }
 
         //check for right numbers
         for (int i = 0; i < CARDSIZE; i++) {
             if (cards[*playerID][i] == num) {
+                cards[*playerID][i] = 0; //override with 0
                 checks++;
+            }
+
+            //check for win
+            if (checks == CARDSIZE) {
+
+                printf("Player %d has won!\n", *playerID);
+                for (int i = 0; i < NUM_THREADS; i++) {
+                    pthread_cancel(thread[i]);
+                }
+                exit(0);
             }
         }
 
-        //check for win
-        if (checks == CARDSIZE) {
-            printf("Player %d has won!\n", *playerID);
-            for (int i = 0; i < NUM_THREADS; i++) {
-                pthread_cancel(thread[i]);
-            }
-            exit(0);
-        }
         pthread_barrier_wait(&barrier);
     }
 }
@@ -126,17 +145,23 @@ void* player(void* id)
 // showmaster thread
 void* showmaster(void* id)
 {
+    for (int i = 0; i < NUMBERS; i++) {
+        numbersDrawn[i] = i + 1;
+    }
+
     // TODO
     while (1) {
         pthread_mutex_lock(&mutex);
-        if (masterNumber != 0) {
+
+        while (masterNumber != 0) {
             pthread_cond_wait(&next, &mutex);
         }
-        masterNumber = rand() % 50 + 1;
+
+        masterNumber = checkForNumber();
+
         pthread_mutex_unlock(&mutex);
 
         printf("Showmaster has drawn: %d\n", masterNumber);
-        sleep(1);
     }
 }
 
@@ -150,16 +175,17 @@ void* monitor(void* id)
         pthread_mutex_lock(&mutex);
 
         for (int i = 0; i < N; i++) {
-            printf("\nPlayer %d\n", i);
-            for (int j = 0; i < CARDSIZE; i++) {
+            printf("Player %d\n", i);
+            for (int j = 0; j < CARDSIZE; j++) {
                 printf("%d\t", cards[i][j]);
             }
+            printf("\n");
         }
         sleep(1);
         masterNumber = 0; //indicate that master can draw
 
-        pthread_mutex_unlock(&mutex);
         pthread_cond_broadcast(&next);
+        pthread_mutex_unlock(&mutex);
     }
 }
 

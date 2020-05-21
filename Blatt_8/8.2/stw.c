@@ -77,8 +77,8 @@ void einsteigen(Person* person)
 
     while (capacity == 0) {
 
-        printf("Person %d tries to enter bus", person->id);
-        printf("\tPeople --> on bus: %d --> sitting: %d\n", M - capacity, SEATS - free_seats);
+        printf("---- Person %d tries to enter bus ----\n", person->id);
+        //printf("\tPeople --> on bus: %d --> sitting: %d\n", M - capacity, SEATS - free_seats);
 
         pthread_cond_wait(&enter, &mutex);
     }
@@ -120,6 +120,7 @@ void sitz_platz(Person* person)
     }
     sleep(1);
     free_seats--;
+    person->seat = 1;
     printf("Person %d is sitting\t", person->id);
     printf("\tPeople --> on bus: %d --> sitting: %d\n", M - capacity, SEATS - free_seats);
 
