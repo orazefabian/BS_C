@@ -17,17 +17,21 @@ MODULE_LICENSE("GLP");
 MODULE_DESCRIPTION("Info for module");
 
 dev_t namedev;
+struct cdev* namedev_cdev;
 
 static int __init namedev_init(void)
 {
     printk(KERN_INFO "Namedev started\n");
 
     namedev = MKDEV(MAJOR_NUMBER, MINOR_NUMBER);
-
     //check if creation failed
     if (register_chrdev_region(namedev, 1, DEV_NAME) != 0) {
         return -1;
     }
+
+    namedev_cdev = cdev_alloc();
+
+    cdev_add(namedev_cdev, namedev, 1);
 
     return 0;
 }
@@ -37,6 +41,8 @@ static void __exit namedev_exit(void)
     printk(KERN_INFO "Namedev ended\n");
 
     unregister_chrdev_region(namedev, 1);
+
+    cdev_del(namedev_cdev);
 }
 
 module_init(namedev_init);

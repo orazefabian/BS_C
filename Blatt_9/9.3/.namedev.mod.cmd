@@ -1,0 +1,1 @@
+cmd_/home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.mod := { echo  /home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.o; echo; } > /home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.mod

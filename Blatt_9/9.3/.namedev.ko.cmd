@@ -1,0 +1,1 @@
+cmd_/home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.ko /home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.o /home/fabian/Desktop/Betriebssysteme/C/Blatt_9/9.3/namedev.mod.o ;  true
